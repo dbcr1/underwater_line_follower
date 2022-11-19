@@ -81,13 +81,22 @@ def image_process(image):
     pixelR = len(a) - np.argmax(a)
     cv.circle(original,(pixelL, 40), 5, (0, 0, 255), -1)
     cv.circle(original,(pixelR, 40), 5, (0, 255, 0), -1)
-    error = error + (160 - (pixelL + pixelR)/2)
+    error = (error + (160 - (pixelL + pixelR)/2)*0.8)
+
+    pixelL = np.argmax(th3[80])
+    a = th3[80][::-1]
+    pixelR = len(a) - np.argmax(a)
+    cv.circle(original,(pixelL, 80), 5, (0, 0, 255), -1)
+    cv.circle(original,(pixelR, 80), 5, (0, 255, 0), -1)
+    error = (error + (160 - (pixelL + pixelR)/2)) * 0.9
+
     pixelL = np.argmax(th3[120])
     a = th3[120][::-1]
     pixelR = len(a) - np.argmax(a)
     cv.circle(original,(pixelL, 120), 5, (0, 0, 255), -1)
     cv.circle(original,(pixelR, 120), 5, (0, 255, 0), -1)
-    error = error + (160 - (pixelL + pixelR)/2)
+    error = (error + (160 - (pixelL + pixelR)/2)) * 1
+    error = error/3
     try:
         c_c = len(count_circle[0])
     except:
@@ -121,7 +130,7 @@ while True:
     error = image_process(image)
     cv.imshow('2', original)
     p_depth(3)
-    p_yaw(10,error)
+    p_yaw(12,error)
 
     if cv.waitKey(1) == 27:
         break
